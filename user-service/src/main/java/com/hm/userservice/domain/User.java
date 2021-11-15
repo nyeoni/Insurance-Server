@@ -3,12 +3,15 @@ package com.hm.userservice.domain;
 import com.hm.userservice.domain.constants.CompanyPosition;
 import com.hm.userservice.domain.constants.Department;
 import com.hm.userservice.global.BaseTimeEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 
+@Builder
+@NoArgsConstructor @AllArgsConstructor
 @Getter
 @Entity
 public class User extends BaseTimeEntity {
@@ -17,11 +20,9 @@ public class User extends BaseTimeEntity {
     @Id
     private Long userId;
 
-    @Size(min = 4, max = 20)
     @Column(nullable = false, unique = true)
     private String loginId;
 
-    @Size(min = 4, max = 20)
     @Column(nullable = false)
     private String password;
 
@@ -33,7 +34,6 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private CompanyPosition companyPosition;
 
-    @Email
     private String email;
 
     private String phoneNumber;

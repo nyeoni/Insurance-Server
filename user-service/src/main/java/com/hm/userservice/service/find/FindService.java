@@ -3,6 +3,7 @@ package com.hm.userservice.service.find;
 import com.hm.userservice.domain.User;
 import com.hm.userservice.domain.UserRepo;
 import com.hm.userservice.domain.constants.CompanyPosition;
+import com.hm.userservice.global.exception.InvalidFindException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class FindService {
 
 
     public User findById(Long id){
-        return repo.findById(id).orElseThrow();
+        return repo.findById(id).orElseThrow(() -> new InvalidFindException.InvalidFindByIdException());
     }
 
     public List<User> findAll(){

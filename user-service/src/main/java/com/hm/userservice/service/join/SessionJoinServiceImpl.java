@@ -1,12 +1,11 @@
 package com.hm.userservice.service.join;
 
-import com.hm.userservice.controller.dto.EditDto;
 import com.hm.userservice.controller.dto.JoinDto;
 import com.hm.userservice.controller.dto.LoginDto;
 import com.hm.userservice.domain.User;
 import com.hm.userservice.domain.UserRepo;
-import com.hm.userservice.global.Mapper;
-import com.hm.userservice.global.exception.InvalidLoginDtoError;
+import com.hm.userservice.global.MessageSourceHandler;
+import com.hm.userservice.global.exception.InvalidFindException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,19 +16,21 @@ import org.springframework.stereotype.Service;
 public class SessionJoinServiceImpl implements JoinService{
 
     private final UserRepo userRepo;
+    private final MessageSourceHandler ms;
 
     @Override
     public User join(JoinDto joinDto) {
-        User user = Mapper.getMapper().convertValue(joinDto, User.class);
+        User user = joinDto.toUser();
         userRepo.save(user);
-        log.info("LoginId: {}님 가입성공",user.getLoginId());
+        log.info(ms.getMessage("join.User.id",joinDto.getLoginId()));
         return user;
     }
 
     @Override
-    public void login(LoginDto loginDto) {
+    public Boolean login(LoginDto loginDto) {
         userRepo.findUserByLoginIdAndPassword(loginDto.getLoginId(), loginDto.getPassword())
-                .orElseThrow(() -> new InvalidLoginDtoError());
+                .orElseThrow(() -> new InvalidFindException.InvalidLoginDtoException());
+        return true;
     }
 
 }

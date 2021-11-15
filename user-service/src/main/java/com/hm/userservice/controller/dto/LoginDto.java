@@ -1,15 +1,17 @@
 package com.hm.userservice.controller.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Setter @Getter
 public class LoginDto {
 
-    @NotBlank(message = "Login Id는 공백일 수 없습니다.")
+    @NotBlank
     private String loginId;
 
-    @NotBlank(message = "Password는 공백일 수 없습니다.")
+    @NotBlank
     private String password;
+
 }

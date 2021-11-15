@@ -1,11 +1,11 @@
 package com.hm.userservice.controller;
 
 import com.hm.userservice.controller.dto.UserDetailDto;
+import com.hm.userservice.global.MessageSourceHandler;
 import com.hm.userservice.global.ResponseDto;
 import com.hm.userservice.service.find.FindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,19 +21,21 @@ import java.util.stream.Collectors;
 public class FindController {
 
     private final FindService findService;
+    private final MessageSourceHandler ms;
 
     @GetMapping(value = {"","{id}"})
-    public ResponseEntity findById(@PathVariable(required = false) Long id){
+    public ResponseDto findById(@PathVariable(required = false) Long id){
         if(id==null){
-            log.info("User 전체 조회");
+            String message = ms.getMessage("find.user", "전체", null);
+            log.info(ms.getMessage("find.user","전체"));
             List<UserDetailDto> list = findService.findAll().stream()
                     .map(user -> UserDetailDto.byUser(user)).collect(Collectors.toList());
-            return ResponseEntity.ok(ResponseDto.builder()
-                    .result("SUCCESS").message("User 전체 결과").data(list).build());
+            return ResponseDto.builder().ok().message(message).data(list).build();
         }
-        log.info("User ID:"+id+" 조회");
-        return ResponseEntity.ok(ResponseDto.builder()
-                .result("SUCCESS").message("USER "+id+"결과").data(findService.findById(id)).build());
+        String message = ms.getMessage("find.user", id, null);
+        log.info(ms.getMessage("find.user",id));
+        return new ResponseDto.builder().ok()
+                .message(message).data(findService.findById(id)).build();
     }
 
 }

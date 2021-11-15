@@ -5,6 +5,7 @@ import com.hm.userservice.domain.constants.CompanyPosition;
 import com.hm.userservice.domain.constants.Department;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Builder
