@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
+@RequestMapping("user-service")
 @RequiredArgsConstructor
 @RestController
 public class JoinController {
@@ -33,7 +34,7 @@ public class JoinController {
     private final JoinService joinService;
     private final MessageSourceHandler ms;
 
-    @PostMapping("/join")
+    @PostMapping("user/join")
     public ResponseDto join(@Validated @RequestBody JoinDto joinDto, BindingResult bindingResult){
         if (bindResultHasErrors(bindingResult)) {
             return ResponseDto.builder().fail(HttpStatus.BAD_REQUEST)

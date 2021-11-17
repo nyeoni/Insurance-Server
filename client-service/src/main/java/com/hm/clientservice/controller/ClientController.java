@@ -2,36 +2,46 @@ package com.hm.clientservice.controller;
 
 import com.hm.clientservice.controller.dto.AddClientDto;
 import com.hm.clientservice.controller.dto.DetailClientDto;
-import com.hm.clientservice.domain.Client;
+import com.hm.clientservice.global.ErrorDto;
+import com.hm.clientservice.global.MessageSourceHandler;
+import com.hm.clientservice.global.ResponseDto;
 import com.hm.clientservice.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RequestMapping("client-api")
+@RequestMapping("client-service")
 @RequiredArgsConstructor
 @RestController
 public class ClientController {
 
     private final ClientService clientService;
-
+    private final MessageSourceHandler ms;
     @GetMapping({"","{id}"})
-    public ResponseEntity findClient(@PathVariable(required = false) Long id){
+    public ResponseDto findClient(@PathVariable(required = false) Long id){
         if(id==null) {
-            log.info("Client 전체 조회");
-            return ResponseEntity.ok(clientService.findAll().stream().map(client -> new DetailClientDto(client)));
+            String message = ms.getMessage("find.client.all");
+            log.info(message);
+            return ResponseDto.builder().ok().message(message).data(clientService.findAll()).build();
         }
-        log.info("Client: {} 조회",id);
-        return ResponseEntity.ok(new DetailClientDto(clientService.findById(id)));
+        String message = ms.getMessage("find.client.id", id);
+        log.info(message);
+        return ResponseDto.builder().ok().message(message).data(clientService.findById(id)).build();
     }
 
 
     @PostMapping
-    public ResponseEntity<DetailClientDto> addClient(@RequestBody AddClientDto addClientDto){
-        log.info("client 생성");
-        return ResponseEntity.ok(new DetailClientDto(clientService.addClient(addClientDto)));
+    public ResponseDto addClient(@Validated @RequestBody AddClientDto addClientDto, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            log.info(String.valueOf(bindingResult.getAllErrors()));
+            return ResponseDto.builder().badRequest().errors(ErrorDto.byBindingResult(bindingResult,ms)).build();
+        }
+        String message = ms.getMessage("add.client",addClientDto.getName());
+        log.info(message);
+        return ResponseDto.builder().ok().message(message).data(DetailClientDto.byClient(clientService.addClient(addClientDto))).build();
     }
 
 

@@ -1,4 +1,4 @@
-package com.hm.userservice.global.config;
+package com.hm.clientservice.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +26,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("User-Service")
-                .description("User Service Api Specification")
+                .title("Client-Service")
+                .description("Client Service Api Specification")
                 .version("1.0")
                 .build();
     }
@@ -52,13 +52,13 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("user-service/**"))
+                .paths(PathSelectors.ant("/client-service/**"))
                 .build();
     }
 
     @Bean
     RouterFunction<ServerResponse> routerFunction(){
-        return route(GET("/user-service/swagger"), request ->
+        return route(GET("/client-service/swagger"), request ->
                 ServerResponse.temporaryRedirect(URI.create("/swagger-ui.html")).build());
     }
 

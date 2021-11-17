@@ -29,7 +29,7 @@ public class SessionJoinServiceImpl implements JoinService{
     @Override
     public Boolean login(LoginDto loginDto) {
         userRepo.findUserByLoginIdAndPassword(loginDto.getLoginId(), loginDto.getPassword())
-                .orElseThrow(() -> new InvalidFindException.InvalidLoginDtoException());
+                .orElseThrow(() -> new InvalidFindException.ByLoginDto());
         return true;
     }
 

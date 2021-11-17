@@ -14,8 +14,7 @@ public class ExceptionControllerConfig {
     @Autowired
     MessageSourceHandler ms;
 
-
-    @ExceptionHandler(InvalidFindException.InvalidLoginDtoException.class)
+    @ExceptionHandler(InvalidFindException.ByLoginDto.class)
     public ResponseDto controller(InvalidFindException exception){
         return new ResponseDto.builder()
                 .badRequest()
@@ -23,8 +22,8 @@ public class ExceptionControllerConfig {
                 .build();
     }
 
-    @ExceptionHandler(InvalidFindException.InvalidFindByIdException.class)
-    public ResponseDto controller(InvalidFindException.InvalidFindByIdException exception){
+    @ExceptionHandler(InvalidFindException.ById.class)
+    public ResponseDto controller(InvalidFindException.ById exception){
         return new ResponseDto.builder()
                 .badRequest()
                 .message(ms.getMessage("invalid.User.Id"))

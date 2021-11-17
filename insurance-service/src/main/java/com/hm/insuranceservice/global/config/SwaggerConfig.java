@@ -1,4 +1,4 @@
-package com.hm.userservice.global.config;
+package com.hm.insuranceservice.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,21 +24,21 @@ import static org.springframework.web.servlet.function.RouterFunctions.route;
 public class SwaggerConfig {
 
 
-    private ApiInfo apiInfo(){
+    public ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("User-Service")
-                .description("User Service Api Specification")
+                .title("Insurance-Service")
+                .description("Insurance Service Specification")
                 .version("1.0")
                 .build();
     }
 
-    private Set<String> getConsumeContentTypes(){
+    public Set<String> getConsumeContentTypes(){
         Set<String> consumes = new HashSet<>();
         consumes.add("application/json;charset=UTF-8");
         return consumes;
     }
 
-    private Set<String> getProduceContentTypes(){
+    public Set<String> getProduceContentTypes(){
         Set<String> produces = new HashSet<>();
         produces.add("application/json;charset=UTF-8");
         return produces;
@@ -52,14 +52,15 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("user-service/**"))
+                .paths(PathSelectors.ant("/insurance-api/**"))
                 .build();
     }
 
     @Bean
     RouterFunction<ServerResponse> routerFunction(){
-        return route(GET("/user-service/swagger"), request ->
-                ServerResponse.temporaryRedirect(URI.create("/swagger-ui.html")).build());
+        return route(GET("/insurance-api/swagger"), request ->
+            ServerResponse.temporaryRedirect(URI.create("/swagger-ui.html")).build());
     }
+
 
 }

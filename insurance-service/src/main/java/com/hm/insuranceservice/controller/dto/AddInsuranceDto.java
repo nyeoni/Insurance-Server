@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Setter @Getter
 public class AddInsuranceDto {
 
-    @NotBlank(message = "보험 생성시 이름은 필수 값 입니다.")
+    @NotBlank
     private String name;
 
     private Category category;

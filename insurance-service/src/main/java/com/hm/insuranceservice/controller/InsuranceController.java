@@ -3,6 +3,8 @@ package com.hm.insuranceservice.controller;
 import com.hm.insuranceservice.controller.dto.AddInsuranceDto;
 import com.hm.insuranceservice.controller.dto.InsuranceDetailDto;
 import com.hm.insuranceservice.domain.Insurance;
+import com.hm.insuranceservice.global.ErrorDto;
+import com.hm.insuranceservice.global.MessageSourceHandler;
 import com.hm.insuranceservice.global.ResponseDto;
 import com.hm.insuranceservice.service.InsuranceService;
 import lombok.RequiredArgsConstructor;
@@ -19,25 +21,31 @@ import org.springframework.web.bind.annotation.*;
 public class InsuranceController {
 
     private final InsuranceService insuranceService;
+    private final MessageSourceHandler ms;
 
-    @GetMapping({"","{id}"})
-    public ResponseEntity findInsurance(@PathVariable(required = false) Long id){
+    @GetMapping({"insurance","insurance/{id}"})
+    public ResponseDto findInsurance(@PathVariable(required = false) Long id){
         if (id==null){
-            return ResponseEntity.ok(ResponseDto.builder()
-                    .message("보험 전체 조회").data(insuranceService.findAll()).build());
+            String findAllMessage = ms.getMessage("find.Insurance.all");
+            log.info(findAllMessage);
+            return ResponseDto.builder().ok()
+                    .message(findAllMessage).data(insuranceService.findAll()).build();
         }
-        log.info("Insurance ID: {} 조회",id);
-        return ResponseEntity.ok(ResponseDto.builder()
-                .message("보험 ID:"+id).data(insuranceService.findById(id)).build());
+        String findByIdMessage = ms.getMessage("find.Insurance.id", id);
+        log.info(findByIdMessage);
+        return ResponseDto.builder().ok()
+                .message(findByIdMessage).data(insuranceService.findById(id)).build();
     }
 
-    @PostMapping
-    public ResponseEntity addInsurance(@Validated @RequestBody AddInsuranceDto addInsuranceDto, BindingResult bindingResult){
+    @PostMapping("insurance")
+    public ResponseDto<InsuranceDetailDto> addInsurance(@Validated @RequestBody AddInsuranceDto addInsuranceDto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             log.error(String.valueOf(bindingResult.getAllErrors()));
-            return ResponseEntity.badRequest().build();
+            return ResponseDto.builder().badRequest().errors(ErrorDto.byBindingResult(bindingResult,ms)).build();
         }
         Insurance insurance = insuranceService.addInsurance(addInsuranceDto);
-        return ResponseEntity.ok(InsuranceDetailDto.byInsurance(insurance));
+        String addMessage = ms.getMessage("add.Insurance", insurance.getName());
+        log.info(addMessage);
+        return ResponseDto.builder().ok().message(addMessage).data(InsuranceDetailDto.byInsurance(insurance)).build();
     }
 }

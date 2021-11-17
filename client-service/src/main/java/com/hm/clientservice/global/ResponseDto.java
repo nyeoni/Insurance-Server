@@ -1,6 +1,7 @@
-package com.hm.insuranceservice.global;
+package com.hm.clientservice.global;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hm.clientservice.global.ErrorDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,12 +12,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class ResponseDto<T> extends ResponseEntity {
+public class ResponseDto extends ResponseEntity {
 
     private HttpStatus status;
     private Boolean success;
     private String message;
-    private T data;
+    private Object data;
     private List<ErrorDto> errors;
 
     public ResponseDto(ResponseWrapperDto responseWrapper, HttpStatus status){

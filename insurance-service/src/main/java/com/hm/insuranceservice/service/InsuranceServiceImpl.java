@@ -3,6 +3,7 @@ package com.hm.insuranceservice.service;
 import com.hm.insuranceservice.controller.dto.AddInsuranceDto;
 import com.hm.insuranceservice.domain.Insurance;
 import com.hm.insuranceservice.domain.InsuranceRepo;
+import com.hm.insuranceservice.global.exception.InvalidFindException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class InsuranceServiceImpl implements InsuranceService{
 
     @Override
     public Insurance findById(Long id) {
-        return insuranceRepo.findById(id).orElseThrow();
+        return insuranceRepo.findById(id).orElseThrow(() -> new InvalidFindException.ById());
     }
 
     @Override
@@ -33,7 +34,7 @@ public class InsuranceServiceImpl implements InsuranceService{
 
     @Override
     public void deleteInsuranceById(Long id) {
-        Insurance insurance = insuranceRepo.findById(id).orElseThrow();
+        Insurance insurance = insuranceRepo.findById(id).orElseThrow(() -> new InvalidFindException.ById());
         insuranceRepo.delete(insurance);
     }
 }

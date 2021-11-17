@@ -20,7 +20,7 @@ public class FindService {
 
 
     public User findById(Long id){
-        return repo.findById(id).orElseThrow(() -> new InvalidFindException.InvalidFindByIdException());
+        return repo.findById(id).orElseThrow(() -> new InvalidFindException.ById());
     }
 
     public List<User> findAll(){

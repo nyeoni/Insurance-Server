@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(value = "find")
+@RequestMapping(value = "user-service/find")
 @RestController
 public class FindController {
 
     private final FindService findService;
     private final MessageSourceHandler ms;
 
-    @GetMapping(value = {"","{id}"})
+    @GetMapping(value = {"user","user/{id}"})
     public ResponseDto findById(@PathVariable(required = false) Long id){
         if(id==null){
             String message = ms.getMessage("find.user", "전체", null);

@@ -7,10 +7,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Builder
 @Getter
 public class AddClientDto {
 
+    @NotBlank
     private String name;
 
     private Privacy privacy;

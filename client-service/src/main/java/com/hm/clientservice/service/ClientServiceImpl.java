@@ -3,6 +3,7 @@ package com.hm.clientservice.service;
 import com.hm.clientservice.controller.dto.AddClientDto;
 import com.hm.clientservice.domain.Client;
 import com.hm.clientservice.domain.ClientRepo;
+import com.hm.clientservice.global.Exception.InvalidFindException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public Client findById(Long id) {
-        return clientRepo.findById(id).orElseThrow();
+        return clientRepo.findById(id).orElseThrow(() -> new InvalidFindException.byId());
     }
 
     @Override
