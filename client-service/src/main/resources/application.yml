@@ -1,3 +1,6 @@
+server:
+  port: 0
+
 spring:
   datasource:
     driver-class-name: org.h2.Driver
@@ -14,6 +17,8 @@ spring:
       ddl-auto: create-drop
   messages:
     basename: messages,errors
+  application:
+    name: client-service
 
 management:
   endpoints:
@@ -21,3 +26,9 @@ management:
       exposure:
         include: health
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
