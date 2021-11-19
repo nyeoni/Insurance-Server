@@ -24,6 +24,6 @@ public class LogInterceptor implements HandlerInterceptor {
             return;
         }
         if(response.getStatus() == 200)
-            log.info("SUCCESS: {}",((HandlerMethod) handler).getShortLogMessage());
+            log.info("SUCCESS: {} HANDLER: {}",response.getStatus(),handler);
     }
 }

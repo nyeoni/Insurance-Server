@@ -27,12 +27,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns(excludeUrl("/csrf"));
         //로그인 사용자 여부 판별
         registry.addInterceptor(new SessionAuthenticationInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns(excludeUrl("/","/login","/join"))
+                .addPathPatterns("/user-service/**")
+                .excludePathPatterns(excludeUrl("/user-service/login","/user-service/join"))
                 .order(1);
         //조회 권한 여부 판별
         registry.addInterceptor(new FindAuthorizationInterceptor(findService))
-                .addPathPatterns("/find/**")
+                .addPathPatterns("/user-service/find/**")
                 .order(2);
     }
 

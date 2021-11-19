@@ -1,4 +1,4 @@
-package com.hm.insuranceservice.global.interceptor;
+package com.hm.insuranceservice.global;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
@@ -22,7 +22,7 @@ public class LogInterceptor implements HandlerInterceptor {
         if(ex!=null){
             log.info("ERROR: [{}]",ex.getMessage());
         }
-        if(response.getStatus()==200)
-            log.info("SUCCESS: [{}]",((HandlerMethod) handler).getShortLogMessage());
+        if(response.getStatus() == 200)
+            log.info("SUCCESS: {} HANDLER: {}",response.getStatus(),handler);
     }
 }

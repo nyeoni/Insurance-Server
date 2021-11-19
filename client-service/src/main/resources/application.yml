@@ -2,6 +2,8 @@ server:
   port: 0
 
 spring:
+  application:
+    name: client-service
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb
@@ -17,8 +19,6 @@ spring:
       ddl-auto: create-drop
   messages:
     basename: messages,errors
-  application:
-    name: client-service
 
 management:
   endpoints:
@@ -30,5 +30,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}

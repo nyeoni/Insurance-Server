@@ -34,7 +34,7 @@ public class JoinController {
     private final JoinService joinService;
     private final MessageSourceHandler ms;
 
-    @PostMapping("user/join")
+    @PostMapping("/join")
     public ResponseDto join(@Validated @RequestBody JoinDto joinDto, BindingResult bindingResult){
         if (bindResultHasErrors(bindingResult)) {
             return ResponseDto.builder().fail(HttpStatus.BAD_REQUEST)
