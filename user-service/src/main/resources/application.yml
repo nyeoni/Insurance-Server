@@ -1,5 +1,8 @@
 server:
   port: 0
+  servlet:
+    session:
+      timeout: 10
 
 spring:
   application:
@@ -20,17 +23,27 @@ spring:
   messages:
     basename: messages,errors
 
-
 management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,refresh,env
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
+    healthcheck:
+      enabled: true
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
 
+springdoc:
+  api-docs:
+    path: /user-service/api-docs
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /user-service/swagger-ui
+    disable-swagger-default-url: true

@@ -24,12 +24,24 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,refresh,env
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
     fetch-registry: true
+    healthcheck:
+      enabled: true
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+
+
+springdoc:
+  api-docs:
+    path: /client-service/api-docs
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /client-service/swagger-ui
+    disable-swagger-default-url: true

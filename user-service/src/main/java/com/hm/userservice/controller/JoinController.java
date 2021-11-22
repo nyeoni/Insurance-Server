@@ -11,28 +11,27 @@ import com.hm.userservice.global.ResponseDto;
 import com.hm.userservice.service.join.JoinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
-@RequestMapping("user-service")
 @RequiredArgsConstructor
 @RestController
 public class JoinController {
 
     private final JoinService joinService;
     private final MessageSourceHandler ms;
+    @Value("${session.time}")
+    private final int sessionTime;
 
     @PostMapping("/join")
     public ResponseDto join(@Validated @RequestBody JoinDto joinDto, BindingResult bindingResult){
@@ -59,7 +58,7 @@ public class JoinController {
     }
 
 
-    @RequestMapping("/logout")
+    @GetMapping("/logout")
     public ResponseEntity logout(HttpServletRequest request){
         request.getSession().invalidate();
         return ResponseEntity.ok().build();
@@ -77,7 +76,7 @@ public class JoinController {
         HttpSession session = request.getSession();
         joinService.login(loginDto);
         session.setAttribute(LoginConst.LOGIN_USER,loginDto.getLoginId());
-        session.setMaxInactiveInterval(60);
+        session.setMaxInactiveInterval(Integer.valueOf(ms.getMessage("session.time")));
         String loginId = session.getAttribute(LoginConst.LOGIN_USER).toString();
         log.info("SESSION_ID = [{}] LOGIN_USER = [{}]",session.getId(), loginId);
         return loginId;
