@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("insurance-api")
 @RestController
 public class InsuranceController {
 

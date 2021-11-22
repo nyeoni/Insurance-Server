@@ -1,6 +1,6 @@
 package com.hm.insuranceservice.global.config;
 
-import com.hm.insuranceservice.global.interceptor.LogInterceptor;
+import com.hm.insuranceservice.global.LogInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

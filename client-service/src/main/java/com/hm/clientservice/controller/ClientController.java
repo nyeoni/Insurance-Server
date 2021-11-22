@@ -13,14 +13,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RequestMapping("client-service")
 @RequiredArgsConstructor
 @RestController
 public class ClientController {
 
     private final ClientService clientService;
     private final MessageSourceHandler ms;
-    @GetMapping({"","{id}"})
+    @GetMapping({"client","client/{id}"})
     public ResponseDto findClient(@PathVariable(required = false) Long id){
         if(id==null) {
             String message = ms.getMessage("find.client.all");
