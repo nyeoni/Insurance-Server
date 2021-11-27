@@ -30,8 +30,6 @@ public class JoinController {
 
     private final JoinService joinService;
     private final MessageSourceHandler ms;
-    @Value("${session.time}")
-    private final int sessionTime;
 
     @PostMapping("/join")
     public ResponseDto join(@Validated @RequestBody JoinDto joinDto, BindingResult bindingResult){

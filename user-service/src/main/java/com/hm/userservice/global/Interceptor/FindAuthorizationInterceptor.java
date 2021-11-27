@@ -18,11 +18,13 @@ public class FindAuthorizationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("조회 권한 체크 시작");
-        String loginId = request.getSession(false).getAttribute(LoginConst.LOGIN_USER).toString();
-
-        if(findService.CheckFindAuthority(loginId)) {
-            log.info("조회 권한 체크 완료");
-            return true;
+        Object attribute = request.getSession(false).getAttribute(LoginConst.LOGIN_USER);
+        if(attribute!=null) {
+            String loginId = attribute.toString();
+            if (findService.CheckFindAuthority(loginId)) {
+                log.info("조회 권한 체크 완료");
+                return true;
+            }
         }
         log.info("조회 권한 없음");
         return false;
