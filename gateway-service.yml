@@ -10,7 +10,33 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/**
+            - Path=/user/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/login
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/join
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/logout
+        - id: insurance-service
+          uri: lb://insurance-service
+          predicates:
+            - Path=/insurance*/**
+        - id: client-service
+          uri: lb://client-service
+          predicates:
+            - Path=/client*/**
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/api-docs
 
 eureka:
   instance:
