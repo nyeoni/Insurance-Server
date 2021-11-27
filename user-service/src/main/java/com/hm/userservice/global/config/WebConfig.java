@@ -25,20 +25,21 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludeUrl("/csrf"));
-        //로그인 사용자 여부 판별
-        registry.addInterceptor(new SessionAuthenticationInterceptor())
-                .addPathPatterns("/user/**")
-                .excludePathPatterns(excludeUrl("/login","/join","/logout"))
-                .order(1);
-        //조회 권한 여부 판별
-        registry.addInterceptor(new FindAuthorizationInterceptor(findService))
-                .addPathPatterns("/user/**")
-                .order(2);
+        //게이트웨이에서 처리하도록 바꿔야함
+//        //로그인 사용자 여부 판별
+//        registry.addInterceptor(new SessionAuthenticationInterceptor())
+//                .addPathPatterns("/user/**")
+//                .excludePathPatterns(excludeUrl("/login","/join","/logout"))
+//                .order(1);
+//        //조회 권한 여부 판별
+//        registry.addInterceptor(new FindAuthorizationInterceptor(findService))
+//                .addPathPatterns("/user/**")
+//                .order(2);
     }
 
     public List<String> excludeUrl(String... strings){
         List<String> excludeUrls =
-                new ArrayList<>(Arrays.asList(new String[]{"/css/**", "/*.ico", "/**/*swagger*/**", "/webjars/**", "/error"}));
+                new ArrayList<>(Arrays.asList(new String[]{"/css/**", "/*.ico","/user/api-docs", "/webjars/**", "/error"}));
         excludeUrls.addAll(Arrays.asList(strings));
         return excludeUrls;
     }

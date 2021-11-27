@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     public List<String> excludeUrl(String... strings){
         List<String> excludeUrls =
-                new ArrayList<>(Arrays.asList(new String[]{"/css/**", "/*.ico", "/**/*swagger*/**", "/webjars/**", "/error"}));
+                new ArrayList<>(Arrays.asList(new String[]{"/css/**", "/*.ico", "/client/api-docs", "/webjars/**", "/error"}));
         excludeUrls.addAll(Arrays.asList(strings));
         return excludeUrls;
     }
