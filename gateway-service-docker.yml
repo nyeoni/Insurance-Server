@@ -1,0 +1,48 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/login
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/join
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/logout
+        - id: insurance-service
+          uri: lb://insurance-service
+          predicates:
+            - Path=/insurance*/**
+        - id: client-service
+          uri: lb://client-service
+          predicates:
+            - Path=/client*/**
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/api-docs
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
