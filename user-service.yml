@@ -31,8 +31,6 @@ management:
 
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     healthcheck:
       enabled: true
@@ -42,3 +40,21 @@ eureka:
 springdoc:
   api-docs:
     path: /user/api-docs
+
+---
+spring:
+  profiles: local
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  
+---
+spring:
+  profiles: docker
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
