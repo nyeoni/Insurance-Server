@@ -40,17 +40,7 @@ eureka:
 springdoc:
   api-docs:
     path: /user/api-docs
-
----
-spring:
-  profiles: local
-  jpa:
-    show-sql: false
     
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
 ---
 spring:
   profiles: docker
