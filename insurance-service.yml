@@ -39,3 +39,12 @@ eureka:
 springdoc:
   api-docs:
     path: /insurance/api-docs
+
+---
+spring:
+  profiles: docker
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
