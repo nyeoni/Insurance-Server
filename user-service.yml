@@ -44,16 +44,13 @@ springdoc:
 ---
 spring:
   profiles: local
-
+  jpa:
+    show-sql: false
+    
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-
-spring:
-  jpa:
-    show-sql: false
-  
 ---
 spring:
   profiles: docker
