@@ -74,7 +74,6 @@ public class JoinController {
         HttpSession session = request.getSession();
         joinService.login(loginDto);
         session.setAttribute(LoginConst.LOGIN_USER,loginDto.getLoginId());
-        session.setMaxInactiveInterval(Integer.valueOf(ms.getMessage("session.time")));
         String loginId = session.getAttribute(LoginConst.LOGIN_USER).toString();
         log.info("SESSION_ID = [{}] LOGIN_USER = [{}]",session.getId(), loginId);
         return loginId;
