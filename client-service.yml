@@ -24,7 +24,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: env,health,refresh,shutdown
+        include: env,health,refresh,shutdown,info
   endpoint:
     shutdown:
       enabled: true
