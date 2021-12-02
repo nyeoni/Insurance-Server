@@ -24,12 +24,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: env,health,refresh,shutdown,info
+        include: env,health,refresh,info,shutdown
   endpoint:
     shutdown:
       enabled: true
-    info:
-      enabled: true
+
 eureka:
   client:
     serviceUrl:
