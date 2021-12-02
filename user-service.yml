@@ -27,7 +27,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,refresh,env
+        include: env,health,refresh,shutdown
+  endpoint:
+    shutdown:
+      enabled: true
 
 eureka:
   client:
