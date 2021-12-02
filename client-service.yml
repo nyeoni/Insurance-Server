@@ -24,8 +24,9 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,refresh,env, shutdown
-
+        include: health,refresh,env
+    shutdown:
+      enabled: true
 eureka:
   client:
     serviceUrl:
