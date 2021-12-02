@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Builder
 @Getter @Setter
-public class InsuranceDetailDto {
+public class DetailInsuranceDto {
 
     private Long id;
 
@@ -21,8 +21,8 @@ public class InsuranceDetailDto {
 
     private InsuranceConditions conditions;
 
-    public static InsuranceDetailDto byInsurance(Insurance insurance){
-        return InsuranceDetailDto.builder()
+    public static DetailInsuranceDto byInsurance(Insurance insurance){
+        return DetailInsuranceDto.builder()
                 .id(insurance.getId())
                 .name(insurance.getName())
                 .category(insurance.getInsuranceCategory())

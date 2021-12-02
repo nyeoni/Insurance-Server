@@ -16,21 +16,18 @@ import org.springframework.stereotype.Service;
 public class SessionJoinServiceImpl implements JoinService{
 
     private final UserRepo userRepo;
-    private final MessageSourceHandler ms;
 
     @Override
     public User join(JoinDto joinDto) {
         User user = joinDto.toUser();
         userRepo.save(user);
-        log.info(ms.getMessage("join.User.id",joinDto.getLoginId()));
         return user;
     }
 
     @Override
-    public Boolean login(LoginDto loginDto) {
-        userRepo.findUserByLoginIdAndPassword(loginDto.getLoginId(), loginDto.getPassword())
+    public User login(LoginDto loginDto) {
+        return userRepo.findUserByLoginIdAndPassword(loginDto.getLoginId(), loginDto.getPassword())
                 .orElseThrow(() -> new InvalidFindException.ByLoginDto());
-        return true;
     }
 
 }

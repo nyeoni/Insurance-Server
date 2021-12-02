@@ -5,12 +5,11 @@ import com.hm.userservice.domain.constants.CompanyPosition;
 import com.hm.userservice.domain.constants.Department;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Builder
 @Getter @Setter
-public class UserDetailDto {
+public class DetailUserDto {
 
     private Long id;
     private String loginId;
@@ -25,8 +24,8 @@ public class UserDetailDto {
 
     private CompanyPosition companyPosition;
 
-    public static UserDetailDto byUser(User user) {
-        return UserDetailDto.builder()
+    public static DetailUserDto byUser(User user) {
+        return DetailUserDto.builder()
                 .id(user.getUserId())
                 .loginId(user.getLoginId())
                 .password(user.getPassword())

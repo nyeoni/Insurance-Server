@@ -1,13 +1,15 @@
 package com.hm.userservice.global;
 
 import com.hm.userservice.global.exception.InvalidFindException;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
-
+@Slf4j
 @ControllerAdvice
 @RestController
 public class ExceptionControllerConfig {
@@ -16,27 +18,24 @@ public class ExceptionControllerConfig {
     MessageSourceHandler ms;
 
     @ExceptionHandler(InvalidFindException.ByLoginDto.class)
-    public ResponseDto controller(InvalidFindException exception){
-        return new ResponseDto.builder()
-                .badRequest()
-                .message(ms.getMessage("invalid.LoginDto"))
-                .build();
+    public ResponseEntity controller(InvalidFindException exception){
+        String message = ms.getMessage("Error.Invalid.loginDto");
+        log.error(message);
+        return ResponseEntity.internalServerError().body(EntityBody.serverError(message));
     }
 
     @ExceptionHandler(InvalidFindException.ById.class)
-    public ResponseDto controller(InvalidFindException.ById exception){
-        return new ResponseDto.builder()
-                .badRequest()
-                .message(ms.getMessage("invalid.User.Id"))
-                .build();
+    public ResponseEntity controller(InvalidFindException.ById exception){
+        String message = ms.getMessage("Error.Invalid.user.id");
+        log.error(message);
+        return ResponseEntity.internalServerError().body(EntityBody.serverError(message));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseDto unique(ConstraintViolationException exception){
-        return new ResponseDto.builder()
-                .badRequest()
-                .message(ms.getMessage("unique.User.Id"))
-                .build();
+    public ResponseEntity unique(ConstraintViolationException exception){
+        String message = ms.getMessage("Error.Unique.user.id");
+        log.error(message);
+        return ResponseEntity.internalServerError().body(EntityBody.serverError(message));
     }
 
 }

@@ -16,7 +16,7 @@ public class DetailClientDto {
 
     private Privacy privacy;
 
-    private AdditionalInfo additionalInfo;
+    private AdditionalInfo info;
 
     public static DetailClientDto byClient(Client client) {
         return new DetailClientDto(client.getId(),client.getName(),client.getPrivacy(),client.getAdditionalInfo());

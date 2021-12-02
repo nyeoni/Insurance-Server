@@ -10,7 +10,7 @@ public interface JoinService {
 
     User join(JoinDto joinDto);
 
-    Boolean login(LoginDto loginDto);
+    User login(LoginDto loginDto);
 
     default void logout() {}
 
