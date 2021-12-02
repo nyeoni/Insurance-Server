@@ -28,6 +28,8 @@ management:
   endpoint:
     shutdown:
       enabled: true
+    info:
+      enabled: true
 eureka:
   client:
     serviceUrl:
