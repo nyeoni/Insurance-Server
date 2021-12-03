@@ -26,11 +26,15 @@ spring:
         - id: insurance-service
           uri: lb://insurance-service
           predicates:
-            - Path=/insurance*/**
+            - Path=/insurance/**
         - id: client-service
           uri: lb://client-service
           predicates:
-            - Path=/client*/**
+            - Path=/client/**
+        - id: contract-service
+          uri: lb://contract-service
+          predicates:
+            - Path=/contract/**
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:
@@ -47,6 +51,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+token:
+  secret: user_token
 ---
 spring:
   profiles: docker
