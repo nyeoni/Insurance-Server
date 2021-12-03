@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class SessionJoinServiceImpl implements JoinService{
+public class JoinServiceImpl implements JoinService{
 
     private final UserRepo userRepo;
 

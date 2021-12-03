@@ -1,6 +1,5 @@
 package com.hm.userservice.controller;
 
-import com.hm.userservice.controller.constants.LoginConst;
 import com.hm.userservice.controller.dto.JoinDto;
 import com.hm.userservice.controller.dto.LoginDto;
 import com.hm.userservice.controller.dto.LoginResponseDto;
@@ -10,15 +9,18 @@ import com.hm.userservice.global.EntityBody;
 import com.hm.userservice.global.ErrorDto;
 import com.hm.userservice.global.MessageSourceHandler;
 import com.hm.userservice.service.join.JoinService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +30,7 @@ public class JoinController {
 
     private final JoinService joinService;
     private final MessageSourceHandler ms;
+    private final Environment env;
 
     @PostMapping("/join")
     public ResponseEntity join(@Validated @RequestBody JoinDto joinDto, BindingResult bindingResult){
@@ -38,13 +41,13 @@ public class JoinController {
             return ResponseEntity.badRequest().body(EntityBody.badRequest(message,errorDtoList));
         }
         User joinUser = joinService.join(joinDto);
-        String message = ms.getMessage("Join.user");
+        String message = ms.getMessage("Join.user",joinDto.getLoginId());
         log.info(message);
         return ResponseEntity.ok().body(EntityBody.ok(DetailUserDto.byUser(joinUser),message));
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@Validated @RequestBody LoginDto loginDto, BindingResult bindingResult, HttpServletRequest request){
+    public ResponseEntity login(@Validated @RequestBody LoginDto loginDto, BindingResult bindingResult, HttpServletResponse response){
         if (bindResultHasErrors(bindingResult)) {
             String message = ms.getMessage("Error.Login.loginDto");
             List<ErrorDto> errorDtoList = ErrorDto.byBindingResult(bindingResult,ms);
@@ -52,21 +55,10 @@ public class JoinController {
             return ResponseEntity.badRequest().body(EntityBody.badRequest(message,errorDtoList));
         }
         User user = joinService.login(loginDto);
-        String loginId = setLoginSession(user, request);
-        String message = ms.getMessage("Login.loginDto",loginId);
+        response.addHeader("token",makeToken(user.getLoginId()));
+        String message = ms.getMessage("Login.loginDto",user.getLoginId());
         log.info(message);
         return ResponseEntity.ok().body(EntityBody.ok(new LoginResponseDto(user.getLoginId(),user.getName()),message));
-    }
-
-
-    @GetMapping("/logout")
-    public ResponseEntity logout(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String logoutUser = (String) session.getAttribute(LoginConst.LOGIN_USER);
-        session.removeAttribute(LoginConst.LOGIN_USER);
-        String message = ms.getMessage("Logout.user",logoutUser);
-        log.info(message);
-        return ResponseEntity.ok().body(EntityBody.ok(message));
     }
 
     private boolean bindResultHasErrors(BindingResult bindingResult) {
@@ -77,12 +69,13 @@ public class JoinController {
         return false;
     }
 
-    private String setLoginSession(User user, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.setAttribute(LoginConst.LOGIN_USER,user.getLoginId());
-        String loginId = session.getAttribute(LoginConst.LOGIN_USER).toString();
-        log.info("SESSION_ID = [{}] LOGIN_USER = [{}]",session.getId(), loginId);
-        return loginId;
+    private String makeToken(String loginId){
+        String token = Jwts.builder()
+                .setSubject(loginId)
+                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiration_time"))))
+                .signWith(SignatureAlgorithm.HS512,env.getProperty("token.secret"))
+                .compact();
+        return token;
     }
 
 }
