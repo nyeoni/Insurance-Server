@@ -51,6 +51,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+token:
+  secret: user_token
 ---
 spring:
   profiles: docker
