@@ -38,7 +38,7 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-service:8761/eureka
     fetch-registry: true
     healthcheck:
       enabled: true
