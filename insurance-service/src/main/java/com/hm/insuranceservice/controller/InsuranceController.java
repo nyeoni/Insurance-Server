@@ -1,6 +1,6 @@
 package com.hm.insuranceservice.controller;
 
-import com.hm.insuranceservice.client.ContractClient;
+import com.hm.insuranceservice.client.ContractService;
 import com.hm.insuranceservice.controller.dto.AddInsuranceDto;
 import com.hm.insuranceservice.controller.dto.DetailInsuranceDto;
 import com.hm.insuranceservice.domain.Insurance;
@@ -29,7 +29,7 @@ public class InsuranceController {
     private final InsuranceService insuranceService;
     private final MessageSourceHandler ms;
     private final CircuitBreakerFactory circuitBreakerFactory;
-    private final ContractClient contractClient;
+    private final ContractService contractService;
 
     @GetMapping("/{id}")
     public ResponseEntity<EntityBody<DetailInsuranceDto>> findInsurance(@PathVariable Long id){
@@ -72,7 +72,7 @@ public class InsuranceController {
         }
         Insurance insurance = insuranceService.modifyInsurance(id,modifyInsuranceDto);
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitBreaker");
-        circuitBreaker.run(() -> contractClient.modifyContractInsuranceName(insurance.getId(),insurance.getName()), throwable -> null);
+        circuitBreaker.run(() -> contractService.modifyContractInsuranceName(insurance.getId(),insurance.getName()), throwable -> null);
         String message = ms.getMessage("Modify.insurance", insurance.getId());
         log.info(message);
         return ResponseEntity.ok().body(EntityBody.ok(insurance,message));

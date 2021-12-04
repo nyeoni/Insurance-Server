@@ -1,8 +1,8 @@
 package com.hm.contractservice.controller;
 
-import com.hm.contractservice.client.ClientClient;
-import com.hm.contractservice.client.InsuranceClient;
-import com.hm.contractservice.client.UserClient;
+import com.hm.contractservice.client.ClientService;
+import com.hm.contractservice.client.InsuranceService;
+import com.hm.contractservice.client.UserService;
 import com.hm.contractservice.client.dto.ClientDetailDto;
 import com.hm.contractservice.client.dto.InsuranceDetailDto;
 import com.hm.contractservice.client.dto.UserDetailDto;
@@ -17,6 +17,7 @@ import com.hm.contractservice.global.EntityBody;
 import com.hm.contractservice.service.ContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,9 @@ public class ContractController {
 
     private final ContractService contractService;
     private final MessageSourceHandler ms;
-    private final ClientClient clientService;
-    private final InsuranceClient insuranceService;
-    private final UserClient userService;
+    private final ClientService clientService;
+    private final InsuranceService insuranceService;
+    private final UserService userService;
     private final CircuitBreakerFactory circuitBreakerFactory;
 
     @PostMapping

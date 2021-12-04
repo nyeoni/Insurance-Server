@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient("insurance-service")
-public interface InsuranceClient {
+public interface InsuranceService {
 
     @RequestMapping(method = RequestMethod.GET, path = "/insurance/{id}")
     ResponseEntity<EntityBody<InsuranceDetailDto>> findById(@PathVariable Long id);

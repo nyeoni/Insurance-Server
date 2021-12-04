@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient("contract-service")
-public interface ContractClient {
+public interface ContractService {
 
     @RequestMapping(method = RequestMethod.PUT, path = "/contract/insurance/{id}")
     ResponseEntity<EntityBody<GetContractDto>> modifyContractInsuranceName(@PathVariable Long id, @RequestParam String insuranceName);
