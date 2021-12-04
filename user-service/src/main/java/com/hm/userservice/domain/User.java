@@ -1,18 +1,16 @@
 package com.hm.userservice.domain;
 
+import com.hm.userservice.controller.dto.JoinDto;
 import com.hm.userservice.domain.constants.CompanyPosition;
 import com.hm.userservice.domain.constants.Department;
 import com.hm.userservice.global.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Getter
+@Getter @Setter
 @Entity
 public class User extends BaseTimeEntity {
 
@@ -38,4 +36,15 @@ public class User extends BaseTimeEntity {
 
     private String phoneNumber;
 
+
+    public User modifyUser(JoinDto joinDto) {
+        this.setLoginId(joinDto.getLoginId());
+        this.setPassword(joinDto.getPassword());
+        this.setName(joinDto.getName());
+        this.setDepartment(joinDto.getDepartment());
+        this.setCompanyPosition(joinDto.getCompanyPosition());
+        this.setEmail(joinDto.getEmail());
+        this.setPhoneNumber(joinDto.getPhoneNumber());
+        return this;
+    }
 }

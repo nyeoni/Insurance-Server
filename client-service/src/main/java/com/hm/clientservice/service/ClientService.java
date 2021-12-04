@@ -13,4 +13,7 @@ public interface ClientService {
 
     Client addClient(AddClientDto addClientDto);
 
+    Client modifyClient(Long id, AddClientDto addClientDto);
+
+    Boolean deleteClientById(Long id);
 }

@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
@@ -55,10 +56,35 @@ public class JoinController {
             return ResponseEntity.badRequest().body(EntityBody.badRequest(message,errorDtoList));
         }
         User user = joinService.login(loginDto);
-        response.addHeader("token",makeToken(user.getLoginId()));
+        int cookieTime = Long.valueOf(Long.parseLong(env.getProperty("token.expiration_time"))/1000L).intValue();
+        Cookie cookie = new Cookie("token",makeToken(user.getLoginId()));
+        cookie.setMaxAge(cookieTime);
+        response.addCookie(cookie);
         String message = ms.getMessage("Login.loginDto",user.getLoginId());
         log.info(message);
         return ResponseEntity.ok().body(EntityBody.ok(new LoginResponseDto(user.getLoginId(),user.getName()),message));
+    }
+
+    @PutMapping(value = "/user/{id}")
+    public ResponseEntity<EntityBody<DetailUserDto>> modifyFindById(@PathVariable Long id, @Validated @RequestBody JoinDto joinDto, BindingResult bindingResult){
+        if (bindResultHasErrors(bindingResult)) {
+            String message = ms.getMessage("Error.Modify.user");
+            List<ErrorDto> errorDtoList = ErrorDto.byBindingResult(bindingResult, ms);
+            log.error(message);
+            return ResponseEntity.badRequest().body(EntityBody.badRequest(message,errorDtoList));
+        }
+        User modifyUser = joinService.modifyUser(id,joinDto);
+        String message = ms.getMessage("Modify.user",joinDto.getLoginId());
+        log.info(message);
+        return ResponseEntity.ok().body(EntityBody.ok(DetailUserDto.byUser(modifyUser),message));
+    }
+
+    @DeleteMapping(value = "/user/{id}")
+    public ResponseEntity<EntityBody<DetailUserDto>> deleteById(@PathVariable Long id){
+        joinService.deleteUserById(id);
+        String message = ms.getMessage("Delete.user",id);
+        log.info(message);
+        return ResponseEntity.ok().body(EntityBody.ok(message));
     }
 
     private boolean bindResultHasErrors(BindingResult bindingResult) {

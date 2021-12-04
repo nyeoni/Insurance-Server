@@ -14,4 +14,7 @@ public interface JoinService {
 
     default void logout() {}
 
+    User modifyUser(Long id, JoinDto joinDto);
+
+    Boolean deleteUserById(Long id);
 }

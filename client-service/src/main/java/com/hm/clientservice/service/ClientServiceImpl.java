@@ -31,4 +31,18 @@ public class ClientServiceImpl implements ClientService{
     public Client addClient(AddClientDto addClientDto) {
         return clientRepo.save(addClientDto.toClient());
     }
+
+    @Override
+    public Client modifyClient(Long id, AddClientDto addClientDto) {
+        Client client = findById(id);
+        Client modifyClient = client.modifyClient(addClientDto);
+        clientRepo.flush();
+        return modifyClient;
+    }
+
+    @Override
+    public Boolean deleteClientById(Long id) {
+        clientRepo.deleteById(id);
+        return true;
+    }
 }

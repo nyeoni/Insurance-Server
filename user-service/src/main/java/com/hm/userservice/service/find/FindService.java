@@ -18,22 +18,12 @@ public class FindService {
 
     private final UserRepo repo;
 
-
     public User findById(Long id){
         return repo.findById(id).orElseThrow(() -> new InvalidFindException.ById());
     }
 
     public List<User> findAll(){
         return repo.findAll();
-    }
-
-    public Boolean CheckFindAuthority(String loginId){
-        Optional<User> optionalUser = repo.findUserByLoginId(loginId);
-        if(optionalUser.isEmpty() || optionalUser.get().getCompanyPosition()==null)
-            return false;
-        if(optionalUser.get().getCompanyPosition() != CompanyPosition.인턴)
-            return true;
-        return false;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.hm.userservice.global;
 
+import com.hm.userservice.global.exception.AlreadyExistUser;
 import com.hm.userservice.global.exception.InvalidFindException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
@@ -33,7 +34,14 @@ public class ExceptionControllerConfig {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity unique(ConstraintViolationException exception){
-        String message = ms.getMessage("Error.Unique.user.id");
+        String message = ms.getMessage("Error.Unique.user.loginId");
+        log.error(message);
+        return ResponseEntity.internalServerError().body(EntityBody.serverError(message));
+    }
+
+    @ExceptionHandler(AlreadyExistUser.class)
+    public ResponseEntity alreadyExistUser(AlreadyExistUser exception){
+        String message = ms.getMessage("Error.Unique.user.loginId");
         log.error(message);
         return ResponseEntity.internalServerError().body(EntityBody.serverError(message));
     }

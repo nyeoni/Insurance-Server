@@ -1,6 +1,7 @@
 package com.hm.insuranceservice.service;
 
 import com.hm.insuranceservice.controller.dto.AddInsuranceDto;
+import com.hm.insuranceservice.controller.dto.DetailInsuranceDto;
 import com.hm.insuranceservice.domain.Insurance;
 import com.hm.insuranceservice.domain.InsuranceRepo;
 import com.hm.insuranceservice.global.exception.InvalidFindException;
@@ -33,8 +34,17 @@ public class InsuranceServiceImpl implements InsuranceService{
     }
 
     @Override
-    public void deleteInsuranceById(Long id) {
-        Insurance insurance = insuranceRepo.findById(id).orElseThrow(() -> new InvalidFindException.ById());
-        insuranceRepo.delete(insurance);
+    public Insurance modifyInsurance(Long id, DetailInsuranceDto detailInsuranceDto) {
+        Insurance insurance = findById(id);
+        Insurance modifyInsurance = insurance.modifyInsurance(detailInsuranceDto);
+        insuranceRepo.flush();
+        return modifyInsurance;
     }
+
+    @Override
+    public Boolean deleteInsuranceById(Long id) {
+        insuranceRepo.deleteById(id);
+        return true;
+    }
+
 }

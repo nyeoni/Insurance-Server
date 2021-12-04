@@ -34,6 +34,28 @@ public class ClientController {
         return ResponseEntity.ok().body(EntityBody.ok(DetailClientDto.byClient(findClient),message));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EntityBody<DetailClientDto>> modifyClient(@PathVariable Long id, @Validated @RequestBody AddClientDto addClientDto, BindingResult bindingResult){
+        if(bindResultHasErrors(bindingResult)) {
+            String message = ms.getMessage("Error.Modify.client");
+            List<ErrorDto> errorDtoList = ErrorDto.byBindingResult(bindingResult, ms);
+            log.error(message);
+            return ResponseEntity.badRequest().body(EntityBody.badRequest(message,errorDtoList));
+        }
+        Client modifyClient = clientService.modifyClient(id,addClientDto);
+        String message = ms.getMessage("Modify.client",modifyClient.getId());
+        log.info(message);
+        return ResponseEntity.ok().body(EntityBody.ok(DetailClientDto.byClient(modifyClient),message));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<EntityBody<DetailClientDto>> modifyClient(@PathVariable Long id){
+        clientService.deleteClientById(id);
+        String message = ms.getMessage("Delete.client",id);
+        log.info(message);
+        return ResponseEntity.ok().body(EntityBody.ok(message));
+    }
+
     @GetMapping
     public ResponseEntity<EntityBody<Stream<DetailClientDto>>> findAll(){
         Stream<DetailClientDto> findAllClient = clientService.findAll().stream().map(client -> DetailClientDto.byClient(client));

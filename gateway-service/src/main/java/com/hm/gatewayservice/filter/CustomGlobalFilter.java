@@ -47,11 +47,11 @@ public class CustomGlobalFilter {
                 if (true) {
                     ServerHttpRequest request = exchange.getRequest();
                     ServerHttpResponse response = exchange.getResponse();
-                    if (!request.getHeaders().containsKey("token")) {
+                    if (!request.getCookies().containsKey("token")) {
                         response.setStatusCode(HttpStatus.BAD_REQUEST);
                         throw new InvalidAuthException.RequireAuth();
                     }
-                    String token = request.getHeaders().get("token").get(0);
+                    String token = request.getCookies().get("token").get(0).getValue();
                     if (!isJwtValid(token)) {
                         response.setStatusCode(HttpStatus.BAD_REQUEST);
                         throw new InvalidAuthException.InvalidToken();

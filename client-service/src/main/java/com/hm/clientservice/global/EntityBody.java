@@ -26,6 +26,14 @@ public class EntityBody<T> {
         return entityBody;
     }
 
+    public static EntityBody ok(String message){
+        EntityBody entityBody = new EntityBody();
+        entityBody.setStatus(HttpStatus.OK);
+        entityBody.setSuccess(true);
+        entityBody.setMessage(message);
+        return entityBody;
+    }
+
     public static EntityBody error(){
         EntityBody entityBody = new EntityBody();
         entityBody.setSuccess(false);

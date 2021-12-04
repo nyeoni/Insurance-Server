@@ -1,5 +1,6 @@
 package com.hm.insuranceservice.domain;
 
+import com.hm.insuranceservice.controller.dto.DetailInsuranceDto;
 import com.hm.insuranceservice.domain.constants.Category;
 import com.hm.insuranceservice.global.BaseTimeEntity;
 import lombok.*;
@@ -25,5 +26,13 @@ public class Insurance extends BaseTimeEntity {
 
     @Embedded
     private InsuranceConditions insuranceConditions;
+
+    public Insurance modifyInsurance(DetailInsuranceDto insuranceDto){
+        this.setName(insuranceDto.getName());
+        this.setInsuranceCategory(insuranceDto.getCategory());
+        this.setDescription(insuranceDto.getDescription());
+        this.setInsuranceConditions(insuranceDto.getConditions());
+        return this;
+    }
 
 }
