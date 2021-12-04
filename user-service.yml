@@ -1,9 +1,6 @@
 server:
   port: 0
-  servlet:
-    session:
-      timeout: 10
-
+  
 spring:
   application:
     name: user-service
@@ -22,7 +19,12 @@ spring:
       enabled: true
   messages:
     basename: messages,errors
-
+  zipkin:
+    base-url: http://localhost:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
 management:
   endpoints:
     web:
@@ -45,12 +47,13 @@ springdoc:
     path: /user/api-docs
     
 token:
-  expiration_time: 60000
+  expiration_time: 600000
   secret: user_token
 ---
 spring:
   profiles: docker
-
+  zipkin:
+    base-url: http://zipkin-service:9411
 eureka:
   client:
     service-url:
