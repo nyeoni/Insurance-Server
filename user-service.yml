@@ -1,9 +1,6 @@
 server:
   port: 0
-  servlet:
-    session:
-      timeout: 10
-
+  
 spring:
   application:
     name: user-service
@@ -50,7 +47,7 @@ springdoc:
     path: /user/api-docs
     
 token:
-  expiration_time: 60000
+  expiration_time: 600000
   secret: user_token
 ---
 spring:
