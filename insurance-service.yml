@@ -20,7 +20,7 @@ spring:
   messages:
     basename: messages,errors
   zipkin:
-    base-url: http://localhost:9411
+    base-url: http://zipkin-service:9411
     enabled: true
   sleuth:
     sampler:
@@ -38,7 +38,7 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-service:8761/eureka
     fetch-registry: true
     healthcheck:
       enabled: true
