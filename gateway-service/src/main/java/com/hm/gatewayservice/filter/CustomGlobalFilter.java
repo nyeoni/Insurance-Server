@@ -26,6 +26,10 @@ public class CustomGlobalFilter {
            put("/login",true);
            put("/logout",true);
            put("/join",true);
+           put("/user/api-docs",true);
+           put("/insurance/api-docs",true);
+           put("/client/api-docs",true);
+           put("/contract/api-docs",true);
     }};
 
     @Bean
