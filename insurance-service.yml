@@ -53,7 +53,7 @@ springdoc:
 spring:
   profiles: docker
   zipkin:
-    base-url: http://zpikin-service:9411
+    base-url: http://zipkin-service:9411
 eureka:
   client:
     service-url:
