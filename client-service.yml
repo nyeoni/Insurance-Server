@@ -37,7 +37,7 @@ management:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     healthcheck:
       enabled: true
