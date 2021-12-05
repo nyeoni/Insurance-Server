@@ -47,7 +47,7 @@ springdoc:
     path: /user/api-docs
     
 token:
-  expiration_time: 600000
+  expiration_time: 6000000
   secret: user_token
 ---
 spring:
