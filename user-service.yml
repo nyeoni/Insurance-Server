@@ -3,7 +3,7 @@ server:
   
 spring:
   application:
-    name: us-service
+    name: user-service
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
